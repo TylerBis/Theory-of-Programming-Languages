@@ -11,8 +11,9 @@ from postfix import *
 expression = input("Type a Boolean Expression:")
 obj = Conversion(len(expression))
 expression = obj.infixToPostfix(expression)
-
 boolTree = constructTree(expression)
+print(expression)
+reduce(boolTree)
 inorder(boolTree)
 print("Size:", size(boolTree))
 print("Height:", height(boolTree))

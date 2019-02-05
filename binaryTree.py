@@ -84,7 +84,57 @@ def step(e):
 
 # Calls step repeatedly until the expression is non-reducible
 def reduce(e):
-    pass
+    if e is not None:
+        reduce(e.left)
+        if e.value is '^':
+            if e.left.value is 'T':
+                lhs = 'T'
+            if e.left.value is 'F':
+                lhs = 'F'
+            if e.right.value is 'T':
+                rhs = 'T'
+            if e.right.value is 'F':
+                rhs = 'F'
+            e.value = lhs and rhs
+            e.left = None
+            e.right = None
+        elif e.value is 'v':
+            if e.left.value is 'T':
+                lhs = 'T'
+            if e.left.value is 'F':
+                lhs = 'F'
+            if e.right.value is 'T':
+                rhs = 'T'
+            if e.right.value is 'F':
+                rhs = 'F'
+            e.value = lhs or rhs
+            e.left = None
+            e.right = None
+        elif e.value is '!':
+            leftChild = False
+            if e.left.value is 'T':
+                lhs = 'T'
+                leftChild = True
+            elif e.left.value is 'F':
+                lhs = 'F'
+                leftChild = True
+            else:
+                lhs = e.left.value
+                leftChild = False
+            if e.right.value is 'T':
+                rhs = 'T'
+                leftChild = False
+            elif e.right.value is 'F':
+                rhs = 'F'
+                leftChild = False
+            else:
+                rhs = e.right.value
+                leftChild = True
+            if leftChild:
+                e.value = not e.left.value
+            else:
+                e.value = not e.right.value
+        reduce(e.right)
 
 # Returns root of constructed tree for
 # given postfix expression

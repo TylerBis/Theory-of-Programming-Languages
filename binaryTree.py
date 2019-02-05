@@ -50,11 +50,25 @@ def preorder(e):
 
 # Computes the size of an expression
 def size(e):
-    pass
+    if e is None:
+        return 0
+    else:
+        return (size(e.left)+ 1 + size(e.right))
 
 # Computes height of an expression
 def height(e):
-    pass
+    if e is None:
+        return 0
+    else:
+        # Compute the depth of each subtree
+        lDepth = height(e.left)
+        rDepth = height(e.right)
+
+        # Use the larger one
+        if (lDepth > rDepth):
+            return lDepth + 1
+        else:
+            return rDepth + 1
 
 # Return true if two expressions are identical
 def same(e):

@@ -22,7 +22,7 @@ class BoolExpr(Expr):
         return str(self.value)
 
 class NotExpr(Expr):
-    def __init_(self, e):
+    def __init__(self, e):
         self.expr = e
 
     def __str__(self):
@@ -33,16 +33,16 @@ class AndExpr(Expr):
         self.lhs = lhs
         self.rhs = rhs
 
-    # def __str__(self):
-    #     return f"({self.lhs} and {self.rhs})"
+    def __str__(self):
+        return f"({self.lhs} and {self.rhs})"
 
 class OrExpr(Expr):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
 
-    # def __str__(self):
-    #     return f"({self.lhs} or {self.rhs})"
+    def __str__(self):
+        return f"({self.lhs} or {self.rhs})"
 
 def same_str(e1, e2):
     return str(e1) == str(e2)
@@ -74,6 +74,7 @@ def is_value(e):
 
 def is_reducible(e):
     return not is_value(e)
+
 def step_and(e):
     # ----------------------------- And-V
     # v1 and v2 -> '[v1] and [v2]'
@@ -155,7 +156,7 @@ def step(e):
     if type(e) is OrExpr:
         return step_or(e)
 
-    def reduce(e):
-        while is_reducible(e):
-            e = step(e)
-        return e
+def reduce(e):
+    while is_reducible(e):
+        e = step(e)
+    return e

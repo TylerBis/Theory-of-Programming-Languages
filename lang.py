@@ -123,32 +123,36 @@ def step_or(e):
 
     assert False
 
+def step_not(e):
+    #------------------- Not-T
+    # not true -> false
+    #------------------- Not-F
+    # not false -> true
+    #
+    # Alternative for above:
+    # ------------------
+    # not v1 -> 'not [v1]'
+    #
+    #     e1 -> e1'
+    # ------------------ Not-E
+    # not e1 -> not e1'
+
+    if is_value(e.expr):
+        if e.expr.value == True:
+            return BoolExpr(False)
+        else:
+            return BoolExpr(True)
+    return NotExpr(step(e.expr))
+
+    assert False
+
 
 def step(e):
     """Compute the next state of the program."""
     assert is_reducible(e)
 
     if type(e) is NotExpr:
-        #------------------- Not-T
-        # not true -> false
-        #------------------- Not-F
-        # not false -> true
-        #
-        # Alternative for above:
-        # ------------------
-        # not v1 -> 'not [v1]'
-        #
-        #     e1 -> e1'
-        # ------------------ Not-E
-        # not e1 -> not e1'
-
-        if is_value(e.expr):
-            if e.expr.value == True: # not true
-                return BoolExpr(False)
-            else:
-                return BoolExpr(True) # not false
-
-        return NotExpr(step(e.expr))
+        return step_not(e)
 
     if type(e) is AndExpr:
         return step_and(e)

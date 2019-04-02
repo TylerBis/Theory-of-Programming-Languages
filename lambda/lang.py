@@ -205,6 +205,7 @@ def reduce_arith(e):
     return (e)
 
 class IdExpr(Expr):
+    """Implements id for variables"""
     def __init__(self,id):
         self.id = id
         self.ref = None
@@ -212,12 +213,14 @@ class IdExpr(Expr):
         return self.id
 
 class VarDecl:
+    """Implements declaration of a variable"""
     def __init__(self,id):
         self.id = id
     def __str__(self):
         return self.id
 
 class AbsExpr(Expr):
+    """Implements lambda abstractions"""
     def __init__(self, var, e1):
         if type(var) is str:
             self.var = VarDecl(var)
@@ -228,6 +231,7 @@ class AbsExpr(Expr):
         return f"\\{self.var}.{self.expr}"
 
 class AppExpr(Expr):
+    """Implements applications"""
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
@@ -235,6 +239,7 @@ class AppExpr(Expr):
         return f"({self.lhs} {self.rhs})"
 
 class LambdaExpr(Expr):
+    """Implements multi-argument lambda abstractions"""
     def __init__(self, vars, e1):
         self.vars = []
         for v in vars:
@@ -247,6 +252,7 @@ class LambdaExpr(Expr):
         return f"\\({','.join([str(v) for v in self.vars])}).{self.expr}"
 
 class CallExpr:
+    """Implements call to multi-argument lambda abstractions"""
     def __init__(self, fn, args):
         self.fn = fn
         self.args = args
@@ -274,6 +280,18 @@ def resolve(e, scope = []):
     assert False
 
 def subst(e, s):
+    if type(e) is BoolExpr:
+        return e
+    if type(e) is AndExpr:
+        e1 = subst(e.lhs, s)
+        e2 = subst(e.rhs, s)
+        return AndExpr(e1, e2)
+    if type(e) is OrExpr:
+        e1 = subst(e.lhs, s)
+        e2 = subst(e.rhs, s)
+        return OrExpr(e1, e2)
+    if type(e) is NotExpr:
+        return NotExpr(subst(e.expr, s))
     if type(e) is IdExpr:
         if e.ref in s:
             return s[e.ref]

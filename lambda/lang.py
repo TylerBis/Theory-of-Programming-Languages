@@ -275,14 +275,16 @@ def resolve(e, scope = []):
 
 def subst(e, s):
     if type(e) is IdExpr:
-        if e.ref in s:  # FIXME: This is wrong.
+        if e.ref in s:
             return s[e.ref]
         else:
             return e
     if type(e) is AbsExpr:
-        return AbsExpr(e.var, subst(e.expr,s))
+        return AbsExpr(e.var, subst(e.expr, s))
     if type(e) is AppExpr:
         return AppExpr(subst(e.lhs, s), subst(e.rhs, s))
+    if type(e) is LambdaExpr:
+        return LambdaExpr(e.vars, subst(e.expr, s))
     assert False
 
 def step_app(e):

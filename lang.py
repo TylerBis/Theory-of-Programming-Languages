@@ -87,9 +87,10 @@ def step_and(e):
     # ----------------------------- And-L
     # v1 and e2 -> v1 and e2'
 
-    if is_value(e.lhs) and is_value(e.rhs):
+    if (is_value(e.lhs) and is_value(e.rhs)):
         # implement the truth table
-        return BoolExpr(e.lhs.value and e.rhs.value)
+        # return BoolExpr(e.lhs.value and e.rhs.value)
+        return (e.lhs.value and e.rhs.value)
 
     if is_reducible(e.lhs):
         return AndExpr(step(e.lhs), e.rhs)
@@ -111,9 +112,10 @@ def step_or(e):
     # ----------------------------- Or-L
     #   v1 or e2 -> v1 or e2'
 
-    if is_value(e.lhs) and is_value(e.rhs):
+    if (is_value(e.lhs) and is_value(e.rhs)):
         # implement the truth table
-        return BoolExpr(e.lhs.value or e.rhs.value)
+        # return BoolExpr(e.lhs.value or e.rhs.value)
+        return (e.lhs.value or e.rhs.value)
 
     if is_reducible(e.lhs): # Applies Or-L
         return OrExpr(step(e.lhs), e.rhs)
@@ -139,9 +141,11 @@ def step_not(e):
 
     if is_value(e.expr):
         if e.expr.value == True:
-            return BoolExpr(False)
+            # return BoolExpr(False)
+            return False
         else:
-            return BoolExpr(True)
+            # return BoolExpr(True)
+            return True
     return NotExpr(step(e.expr))
 
     assert False

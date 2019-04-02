@@ -7,5 +7,5 @@ from lang import *
 # print(size(e1))
 
 e = NotExpr(AndExpr(BoolExpr(True), NotExpr(BoolExpr(False))))
-reduce(e)
 print(e)
+print(reduce(e))

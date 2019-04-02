@@ -222,10 +222,7 @@ class VarDecl:
 class AbsExpr(Expr):
     """Implements lambda abstractions"""
     def __init__(self, var, e1):
-        if type(var) is str:
-            self.var = VarDecl(var)
-        else:
-            self.var = var
+        self.var = VarDecl(var) if type(var) is str else var
         self.expr = e1
     def __str__(self):
         return f"\\{self.var}.{self.expr}"

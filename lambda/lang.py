@@ -283,13 +283,9 @@ def subst(e, s):
     if type(e) is BoolExpr:
         return e
     if type(e) is AndExpr:
-        e1 = subst(e.lhs, s)
-        e2 = subst(e.rhs, s)
-        return AndExpr(e1, e2)
+        return AndExpr(subst(e.lhs, s), subst(e.rhs, s))
     if type(e) is OrExpr:
-        e1 = subst(e.lhs, s)
-        e2 = subst(e.rhs, s)
-        return OrExpr(e1, e2)
+        return OrExpr(subst(e.lhs, s), subst(e.rhs, s))
     if type(e) is NotExpr:
         return NotExpr(subst(e.expr, s))
     if type(e) is IdExpr:
